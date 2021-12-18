@@ -138,6 +138,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social_core.backends.open_id.OpenIdAuth',
     # 'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     # 'social_core.backends.google.GoogleOAuth',
     # 'social_core.backends.twitter.TwitterOAuth',
     # 'social_core.backends.yahoo.YahooOpenId',
@@ -190,7 +191,7 @@ DJOSER={
     'SEND_ACTIVATION_EMAIL':True,
     'user_create': ['rest_framework.permissions.AllowAny'],
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS':['http://localhost:8000',],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS':['http://localhost:8000/google','http://localhost:8000/facebook',],
     
     'SERIALIZERS':{
         'user_create':'accounts.serializers.UserCreateSerialize',
@@ -210,6 +211,13 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY="614837423183-qsk8porrhaip8hps3g4uatjlf1fqjhqk.app
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET="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"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA=['first_name','last_name']
+
+
+SOCIAL_AUTH_FACEBOOK_KEY='637618417386385'
+SOCIAL_AUTH_FACEBOOK_SECREAT='063add8916ea47ff9ffaab0efaaf6e23'
+SOCIAL_AUTH_FACEBOOK_SCOPE=['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PERAMS={'fields':'email,first_name,last_name',}
+
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',

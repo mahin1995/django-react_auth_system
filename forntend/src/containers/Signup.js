@@ -34,7 +34,15 @@ const Signup = ({signup,isAuthenticated}) => {
      }
      const continueWithGoogle=async()=>{
         try{
-            const res=await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:8000`)
+            const res=await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=${process.env.REACT_APP_API_URL}/google`)
+            window.location.replace(res.data.authorization_url)
+        }catch(err){
+
+        }
+    }
+     const continueWithFacebook=async()=>{
+        try{
+            const res=await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/facebook/?redirect_uri=${process.env.REACT_APP_API_URL}/facebook`)
             window.location.replace(res.data.authorization_url)
         }catch(err){
 
@@ -109,6 +117,9 @@ const Signup = ({signup,isAuthenticated}) => {
 
             </form>
             <button className="btn btn-danger mt-3" onClick={continueWithGoogle}>
+                Continue with google
+            </button>
+            <button className="btn btn-primary mt-3" onClick={continueWithFacebook}>
                 Continue with google
             </button>
             <p className="mt-3">already have an a account? <Link to="/signin">Sign In</Link></p>
