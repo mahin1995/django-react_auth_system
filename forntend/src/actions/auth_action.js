@@ -14,7 +14,9 @@ import {LOGIN_SUCCESS,
    ACTIVATION_SUCCESS,
    ACTIVATION_FAIL,
    GOOGLE_AUTH_SUCCESS,
-   GOOGLE_AUTH_FAIL
+   GOOGLE_AUTH_FAIL,
+   FACEBOOK_AUTH_SUCCESS,
+   FACEBOOK_AUTH_FAIL
 } from './types'
 import axios from 'axios';
 
@@ -79,6 +81,41 @@ export const googleAuthentication=(state,code)=>async dispatch=>{
             console.log(error)
             dispatch({
                 type:GOOGLE_AUTH_FAIL
+            })
+        }
+    }
+}
+export const facebookAuthentication=(state,code)=>async dispatch=>{
+    if(state && code && !localStorage.getItem('access')){
+        const config={
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded',
+              
+            },
+            redirect: 'follow',
+        }
+        const details={
+            'state':state,
+            'code':code
+        }
+        var urlencoded = new URLSearchParams()
+         urlencoded.append('code', code)
+        urlencoded.append('state', state)
+        const formBody=Object.keys(details).map(key=>encodeURIComponent(key)+"="+encodeURIComponent(details[key])).join('&')
+        try{
+            const res=await axios.post(`${process.env.REACT_APP_API_URL}/auth/o/facebook/?${formBody}`,config)
+            // const res=await axios.post(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/`,urlencoded,config)
+            console.log(res)
+            dispatch({
+                type:FACEBOOK_AUTH_SUCCESS,
+                payload:res.data
+            })
+            dispatch(load_user())
+        }
+        catch(error){
+            console.log(error)
+            dispatch({
+                type:FACEBOOK_AUTH_FAIL
             })
         }
     }
